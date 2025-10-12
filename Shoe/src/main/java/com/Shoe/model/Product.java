@@ -1,0 +1,48 @@
+package com.Shoe.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "products")
+public class Product {
+    public enum Gender {
+        MALE,
+        FEMALE,
+        OTHER
+    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @Size(max = 30)
+    @NotNull
+    @Column(name = "ten_sp", nullable = false, length = 30)
+    private String tenSp;
+
+    @Column(name = "gender", length = 20)
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @NotNull
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name="category_id",nullable = false)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name="brand_id",nullable = false)
+    private Brand brand;
+}
