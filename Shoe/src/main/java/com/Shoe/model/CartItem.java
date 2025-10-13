@@ -18,8 +18,17 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @ManyToOne
-    private Product products;
-    @Column(name="quantity")
+    private ProductVariant productsVariant;
+
+    @Column(name = "quantity")
     private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @Column(name = "total_price")
+    private Double totalPrice;
 }

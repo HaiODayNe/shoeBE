@@ -15,11 +15,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "products")
 public class Product {
-    public enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
-    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,16 +23,8 @@ public class Product {
 
     @Size(max = 30)
     @NotNull
-    @Column(name = "ten_sp", nullable = false, length = 30)
-    private String tenSp;
-
-    @Column(name = "gender", length = 20)
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @NotNull
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    @Column(name = "name", nullable = false, length = 30)
+    private String name;
 
     @ManyToOne
     @JoinColumn(name="category_id",nullable = false)
