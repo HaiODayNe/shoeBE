@@ -1,4 +1,4 @@
-package com.Shoe.model;
+package com.Shoe.model.discount;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name="name")
     private String name;
     @Column(name="discount")

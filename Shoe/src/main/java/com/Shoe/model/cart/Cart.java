@@ -1,5 +1,7 @@
-package com.Shoe.model;
+package com.Shoe.model.cart;
 
+import com.Shoe.model.user.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "carts")
+
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +25,8 @@ public class Cart {
     @OneToOne
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<CartItem> cartItems;
 
     @Column(name="total_amount")

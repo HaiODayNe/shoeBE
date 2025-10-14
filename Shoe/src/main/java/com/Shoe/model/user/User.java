@@ -1,4 +1,4 @@
-package com.Shoe.model;
+package com.Shoe.model.user;
 
 import jakarta.persistence.*;
 import lombok.*;

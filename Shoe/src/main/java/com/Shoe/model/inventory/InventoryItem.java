@@ -1,5 +1,6 @@
-package com.Shoe.model;
+package com.Shoe.model.inventory;
 
+import com.Shoe.model.product.ProductVariant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,10 +41,10 @@ public class InventoryItem {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "variant_id")
+    @JoinColumn(name = "variant_id",nullable = false)
     private ProductVariant productVariant;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse")
+    @JoinColumn(name = "warehouse",nullable = false)
     private Inventory warehouse;
 }

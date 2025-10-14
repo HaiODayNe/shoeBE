@@ -1,4 +1,4 @@
-package com.Shoe.model;
+package com.Shoe.model.product;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)

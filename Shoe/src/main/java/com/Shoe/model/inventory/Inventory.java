@@ -1,4 +1,4 @@
-package com.Shoe.model;
+package com.Shoe.model.inventory;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +24,9 @@ public class Inventory {
 
     @Column(nullable = false)
     private String address;
+
+    @Column(name="location", nullable = false)
+    private String location;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     private Set<InventoryItem> inventoryItem=new HashSet<>();

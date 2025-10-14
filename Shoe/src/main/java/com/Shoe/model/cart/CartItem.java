@@ -1,12 +1,11 @@
-package com.Shoe.model;
+package com.Shoe.model.cart;
 
+import com.Shoe.model.product.ProductVariant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -17,7 +16,7 @@ import java.util.List;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     private ProductVariant productsVariant;
@@ -26,7 +25,7 @@ public class CartItem {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cart_id",nullable = false)
     private Cart cart;
 
     @Column(name = "total_price")
