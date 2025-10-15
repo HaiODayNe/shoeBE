@@ -1,4 +1,4 @@
-package com.Shoe.dto.request.order;
+package com.Shoe.dto.request.adminRequest.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiscountRequest {
+public class CatalogueCreateRequest {
     private String name;
-    private String code;
-    private Double discount;
-    private int quantity;
 }

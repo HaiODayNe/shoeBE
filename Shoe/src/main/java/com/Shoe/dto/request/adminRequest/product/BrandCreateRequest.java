@@ -1,4 +1,4 @@
-package com.Shoe.dto.request.product;
+package com.Shoe.dto.request.adminRequest.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandRequest {
+public class BrandCreateRequest {
     private String brandName;
     private String brandDescription;
 }

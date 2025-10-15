@@ -1,4 +1,4 @@
-package com.Shoe.dto.request.product;
+package com.Shoe.dto.request.customerRequest.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

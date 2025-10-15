@@ -1,4 +1,4 @@
-package com.Shoe.dto.request.order;
+package com.Shoe.dto.request.customerRequest.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,5 +16,4 @@ public class OrderRequest {
     private CustomerInfoRequest customerInfo;
     private DiscountRequest discount;
     private PayMethodRequest payMethod;
-
 }

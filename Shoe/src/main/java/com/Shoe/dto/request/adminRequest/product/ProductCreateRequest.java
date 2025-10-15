@@ -1,7 +1,8 @@
-package com.Shoe.dto.request.order;
+package com.Shoe.dto.request.adminRequest.product;
 
 import com.Shoe.model.product.Brand;
 import com.Shoe.model.product.Category;
+import com.Shoe.model.product.ProductVariant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemRequest {
+public class ProductCreateRequest {
     public enum Gender {
         MALE,
         FEMALE,
         OTHER
     }
+
     private Long id;
     private String name;
     private Category category;
@@ -26,4 +28,5 @@ public class OrderItemRequest {
     private String version;
     private String color;
     private Gender gender;
+    private int quantity;
 }

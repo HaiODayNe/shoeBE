@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -24,4 +26,5 @@ public class Discount {
     private Double discount;
     @Column(nullable = false)
     private int quantity;
+    private Date expiryDate;
 }

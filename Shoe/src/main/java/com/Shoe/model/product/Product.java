@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,4 +35,12 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="brand_id",nullable = false)
     private Brand brand;
+
+    @Column(name="updateAt",nullable = false)
+    private LocalDateTime updateAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.updateAt = LocalDateTime.now();
+    }
 }
