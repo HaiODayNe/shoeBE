@@ -27,8 +27,6 @@ public class User {
     private String lastName;
     @Column(name="phone_number", nullable = false, unique = true)
     private String phoneNumber;
-    @Column(name = "email",nullable = false, unique = true)
-    private String email;
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "birthday",nullable = false)

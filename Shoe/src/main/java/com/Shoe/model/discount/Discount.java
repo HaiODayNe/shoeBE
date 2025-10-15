@@ -18,6 +18,10 @@ public class Discount {
     private Long id;
     @Column(name="name")
     private String name;
+    @Column(name="code")
+    private String code;
     @Column(name="discount")
     private Double discount;
+    @Column(nullable = false)
+    private int quantity;
 }

@@ -1,4 +1,4 @@
 package com.Shoe.controller;
 
-public class HomeController {
+public class UserController {
 }
