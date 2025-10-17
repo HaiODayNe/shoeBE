@@ -47,4 +47,5 @@ public class InventoryItem {
     @ManyToOne
     @JoinColumn(name = "warehouse",nullable = false)
     private Inventory warehouse;
+    private int quantity;
 }

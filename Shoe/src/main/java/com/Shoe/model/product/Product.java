@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,24 +25,27 @@ public class Product {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 30)
     @NotNull
-    @Column(name = "name", nullable = false, length = 30)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name="category_id",nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name="brand_id",nullable = false)
+    @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @Column(name="updateAt",nullable = false)
+    @Column(name = "updateAt", nullable = false)
     private LocalDateTime updateAt;
+
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    List<ProductVariant> productVariants = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
         this.updateAt = LocalDateTime.now();
     }
+
 }

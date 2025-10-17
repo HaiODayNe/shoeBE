@@ -28,4 +28,14 @@ public class DiscountServiceImpl implements DiscountService {
     public Discount getDiscount(String code) {
         return null;
     }
+
+    @Override
+    public Boolean checkExpiryDate(String code) {
+        return null;
+    }
+
+    @Override
+    public int checkQuantity(String code) {
+        return 0;
+    }
 }
