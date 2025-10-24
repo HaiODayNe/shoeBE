@@ -1,4 +1,4 @@
-package com.Shoe.dto.response.customerRequest;
+package com.Shoe.dto.response.customerResponse;
 
 import com.Shoe.enums.Gender;
 import com.Shoe.model.product.Brand;
@@ -15,18 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCustomerResponse {
-    private Long id;
+    private String id;
     private String name;
     private Category category;
     private Brand brand;
-    private String code;
-    private List<String> codes;
     private int size;
     private List<Integer> sizes;
-    private String color;
-    private List<String> colors;
     private double price;
     private List<Double> prices;
     private String version;
+    private List<String> versions;
+    private String color;
+    private List<String> colors;
     private Gender gender;
+    private List<String> genders;
 }

@@ -1,10 +1,14 @@
 package com.Shoe.model.product;
 
+import com.Shoe.enums.Gender;
+import com.Shoe.model.inventory.InventoryItem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,11 +17,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "product_variants")
 public class ProductVariant {
-    public enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +42,9 @@ public class ProductVariant {
     @Column(name = "gender", length = 20)
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY)
+    private List<InventoryItem> inventoryItems;
 
 
 }

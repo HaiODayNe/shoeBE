@@ -1,5 +1,6 @@
 package com.Shoe.model.inventory;
 
+import com.Shoe.enumStatus.InventoryItemStatus;
 import com.Shoe.model.product.ProductVariant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,23 +15,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "InventoryItems")
 public class InventoryItem {
-    public enum Status {
-        HANG_MOI,
-        DANG_BAN,
-        HET_HANG,
-        DANG_KIEM_KE,
-        DANG_NHAP_KHO,
-        DANG_XUAT_KHO,
-        HANG_LOI,
-        HANG_HOAN,
-        HANG_CU,
-        HET_HAN,
-        CAN_XU_LY,
-        DAT_TRUOC,
-        DANG_CHUYEN_KHO,
-        KHUYEN_MAI,
-        HANG_MAU
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,14 +22,16 @@ public class InventoryItem {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private InventoryItemStatus status;
 
     @ManyToOne
     @JoinColumn(name = "variant_id",nullable = false)
     private ProductVariant productVariant;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse",nullable = false)
+    @JoinColumn(name = "warehouse_id",nullable = false)
     private Inventory warehouse;
     private int quantity;
+
+
 }
