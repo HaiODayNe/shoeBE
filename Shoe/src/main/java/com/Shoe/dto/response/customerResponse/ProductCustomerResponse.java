@@ -1,5 +1,6 @@
 package com.Shoe.dto.response.customerResponse;
 
+import com.Shoe.dto.response.adminResponse.ProductVariantAdResponse;
 import com.Shoe.enums.Gender;
 import com.Shoe.model.product.Brand;
 import com.Shoe.model.product.Category;
@@ -15,18 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCustomerResponse {
-    private String id;
+    private Long id;
     private String name;
     private Category category;
     private Brand brand;
-    private int size;
-    private List<Integer> sizes;
-    private double price;
-    private List<Double> prices;
-    private String version;
-    private List<String> versions;
-    private String color;
-    private List<String> colors;
-    private Gender gender;
-    private List<String> genders;
+    private  List<ProductVariantCtmResponse> productVariants;
 }

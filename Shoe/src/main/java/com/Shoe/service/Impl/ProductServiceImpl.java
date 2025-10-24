@@ -6,9 +6,11 @@ import com.Shoe.repository.product.ProductRepository;
 import com.Shoe.repository.product.ProductVariantRepository;
 import com.Shoe.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,8 +20,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductVariantRepository productVariantRepository;
 
     @Override
-    public Product getProduct(Long id) {
-        Product product =productRepository.getById(id);
+    public ResponseEntity<Product> getProduct(Long id) {
+        Optional<?> productFound =productRepository.getById(id);
+
 
     }
 

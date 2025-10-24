@@ -4,14 +4,15 @@ import com.Shoe.dto.request.adminRequest.product.ProductCreateRequest;
 import com.Shoe.model.inventory.InventoryItem;
 import com.Shoe.model.product.Category;
 import com.Shoe.model.product.Product;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ProductService {
 
-    Product getProduct(int id);
+    ResponseEntity<Product>  getProduct(Long id);
 
-    Product addProduct(ProductCreateRequest productCreateRequest);
+    ResponseEntity<Product> addProduct(ProductCreateRequest productCreateRequest);
 
     Product updateProduct(int id, Product product);
 

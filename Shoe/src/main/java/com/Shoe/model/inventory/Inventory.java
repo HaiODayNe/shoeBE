@@ -28,7 +28,7 @@ public class Inventory {
     @Column(name="location", nullable = false)
     private String location;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<InventoryItem> inventoryItem=new HashSet<>();
 
 }

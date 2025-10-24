@@ -40,7 +40,7 @@ public class Product {
     @Column(name = "updateAt", nullable = false)
     private LocalDateTime updateAt;
 
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<ProductVariant> productVariants = new ArrayList<>();
 
     @PrePersist

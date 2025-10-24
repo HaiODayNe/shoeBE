@@ -43,7 +43,7 @@ public class ProductVariant {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY,orphanRemoval = true)
     private List<InventoryItem> inventoryItems;
 
 
