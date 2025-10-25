@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface ProductService {
 
-    ResponseEntity<Product>  getProduct(Long id);
+    ResponseEntity<?>  getProduct(Long id,Long userId);
 
-    ResponseEntity<Product> addProduct(ProductCreateRequest productCreateRequest);
+    ResponseEntity<?> addProduct(ProductCreateRequest productCreateRequest);
 
     Product updateProduct(int id, Product product);
 

@@ -1,11 +1,12 @@
 package com.Shoe.converter;
 
+import com.Shoe.dto.response.adminResponse.ProductAdminResponse;
 import com.Shoe.dto.response.adminResponse.ProductVariantAdResponse;
 import com.Shoe.dto.response.customerResponse.ProductVariantCtmResponse;
 import com.Shoe.model.inventory.Inventory;
 import com.Shoe.model.inventory.InventoryItem;
 import com.Shoe.model.product.Product;
-import com.Shoe.dto.response.adminRequest.ProductAdminResponse;
+
 import com.Shoe.dto.response.customerResponse.ProductCustomerResponse;
 import com.Shoe.model.product.ProductVariant;
 import com.Shoe.repository.inventory.InventoryItemRepository;
@@ -26,6 +27,7 @@ public class ProductDTOConverter {
         ProductAdminResponse productAdminResponse = new ProductAdminResponse();
         productAdminResponse.setId(product.getId());
         productAdminResponse.setName(product.getName());
+        productAdminResponse.setProductCode(product.getProductCode());
         productAdminResponse.setCategory(product.getCategory());
         productAdminResponse.setBrand(product.getBrand());
         List<ProductVariantAdResponse> variantResponses = product.getProductVariants()
@@ -54,6 +56,7 @@ public class ProductDTOConverter {
         ProductCustomerResponse productCustomerResponse = new ProductCustomerResponse();
         productCustomerResponse.setId(product.getId());
         productCustomerResponse.setName(product.getName());
+        productCustomerResponse.setProductCode(product.getProductCode());
         productCustomerResponse.setCategory(product.getCategory());
         productCustomerResponse.setBrand(product.getBrand());
         List<ProductVariantCtmResponse> productVariantCtmResponses = product.getProductVariants()

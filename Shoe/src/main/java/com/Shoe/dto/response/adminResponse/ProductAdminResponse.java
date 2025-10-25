@@ -1,4 +1,4 @@
-package com.Shoe.dto.response.adminRequest;
+package com.Shoe.dto.response.adminResponse;
 
 import com.Shoe.dto.response.adminResponse.ProductVariantAdResponse;
 import com.Shoe.enums.Gender;
@@ -19,6 +19,7 @@ import java.util.List;
 public class ProductAdminResponse {
     private Long id;
     private String name;
+    private String productCode;
     private Category category;
     private Brand brand;
     private  List<ProductVariantAdResponse> productVariants;

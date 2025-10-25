@@ -1,5 +1,6 @@
 package com.Shoe.model.product;
 
+import com.Shoe.dto.request.adminRequest.product.ProductCreateRequest;
 import com.Shoe.enums.Gender;
 import com.Shoe.model.inventory.InventoryItem;
 import jakarta.persistence.*;
@@ -21,6 +22,7 @@ public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="productVariantCode",unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,12 +41,11 @@ public class ProductVariant {
     @Column(name = "color", nullable = false)
     private String color;
 
-    @Column(name = "gender", length = 20)
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY,orphanRemoval = true)
     private List<InventoryItem> inventoryItems;
-
 
 }

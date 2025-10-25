@@ -19,16 +19,16 @@ public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-
+    private String warehouseCode;
     @Column(nullable = false)
     private String address;
 
-    @Column(name="location", nullable = false)
+    @Column(name = "location", nullable = false)
     private String location;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<InventoryItem> inventoryItem=new HashSet<>();
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<InventoryItem> inventoryItem = new HashSet<>();
 
 }

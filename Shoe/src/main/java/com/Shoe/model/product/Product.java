@@ -28,7 +28,8 @@ public class Product {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-
+    @Column(name="product_code", nullable = false, unique = true)
+    private String productCode;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

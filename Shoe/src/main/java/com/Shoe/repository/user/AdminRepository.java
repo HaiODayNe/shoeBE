@@ -1,4 +1,7 @@
 package com.Shoe.repository.user;
 
-public interface AdminRepository {
+import com.Shoe.model.user.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AdminRepository extends JpaRepository<Admin,Long> {
 }

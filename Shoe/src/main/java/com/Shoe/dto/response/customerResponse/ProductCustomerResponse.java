@@ -18,6 +18,7 @@ import java.util.List;
 public class ProductCustomerResponse {
     private Long id;
     private String name;
+    private String productCode;
     private Category category;
     private Brand brand;
     private  List<ProductVariantCtmResponse> productVariants;
