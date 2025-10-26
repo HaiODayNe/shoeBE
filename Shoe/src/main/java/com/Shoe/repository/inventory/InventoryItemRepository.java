@@ -1,5 +1,6 @@
 package com.Shoe.repository.inventory;
 
+import com.Shoe.model.inventory.Inventory;
 import com.Shoe.model.inventory.InventoryItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,5 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem,Lon
 //           "join product p on pv.product_id=p.id where p.id=?")
     @Query("select i from InventoryItem i where i.productVariant.product.id=:productId")
    List<InventoryItem> getQuantityByProductId(@Param("productId") Long productId);
-
+Optional<InventoryItem> findByWarehouseCode(String warehouseCode);
 }

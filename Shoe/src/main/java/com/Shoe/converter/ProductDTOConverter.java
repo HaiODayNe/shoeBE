@@ -52,27 +52,22 @@ public class ProductDTOConverter {
     }
 
 
-    public ProductCustomerResponse convertDTOCustomer(Product product) {
-        ProductCustomerResponse productCustomerResponse = new ProductCustomerResponse();
-        productCustomerResponse.setId(product.getId());
-        productCustomerResponse.setName(product.getName());
-        productCustomerResponse.setProductCode(product.getProductCode());
-        productCustomerResponse.setCategory(product.getCategory());
-        productCustomerResponse.setBrand(product.getBrand());
-        List<ProductVariantCtmResponse> productVariantCtmResponses = product.getProductVariants()
+    public static List<ProductCustomerResponse> convertDTOCustomer(Product product) {
+        return product.getProductVariants()
                 .stream()
                 .map(productVariant -> {
-                    ProductVariantCtmResponse productVariantCtmResponse = new ProductVariantCtmResponse();
-                    productVariantCtmResponse.setSize(productVariant.getSize());
-                    productVariantCtmResponse.setColor(productVariant.getColor());
-                    productVariantCtmResponse.setPrice(productVariant.getPrice());
-                    productVariantCtmResponse.setVersion(productVariant.getVersion());
-                    productVariantCtmResponse.setColor(productVariant.getColor());
-                    productVariantCtmResponse.setGender(productVariant.getGender());
-                    return productVariantCtmResponse;
-                    })
+                    ProductCustomerResponse productResponse = new ProductCustomerResponse();
+                    productResponse.setName(product.getName());
+                    productResponse.setProductCode(product.getProductCode());
+                    productResponse.setCategory(product.getCategory());
+                    productResponse.setBrand(product.getBrand());
+                    productResponse.setSize(productVariant.getSize());
+                    productResponse.setPrice(productVariant.getPrice());
+                    productResponse.setVersion(productVariant.getVersion());
+                    productResponse.setColor(productVariant.getColor());
+                    productResponse.setGender(productVariant.getGender());
+                    return productResponse;
+                })
                 .collect(Collectors.toList());
-        productCustomerResponse.setProductVariants(productVariantCtmResponses);
-        return productCustomerResponse;
     }
 }
