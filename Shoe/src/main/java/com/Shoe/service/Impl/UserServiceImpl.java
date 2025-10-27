@@ -1,20 +1,41 @@
 package com.Shoe.service.Impl;
 
+import com.Shoe.converter.UserDTOConverter;
 import com.Shoe.dto.request.customerRequest.user.UserRequest;
 import com.Shoe.model.user.User;
+import com.Shoe.repository.user.UserRepository;
 import com.Shoe.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Override
-    public User createUser(UserRequest userRequest) {
-        return null;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public Boolean signUp(UserRequest userRequest) {
-        return null;
+    public User createUser(UserRequest userRequest) {
+        Optional<User> userFound=userRepository.findByPhoneNumber(userRequest.getPhoneNumber());
+        if(userFound.isEmpty()){
+            User newUser= UserDTOConverter.ConvertToEntity(userRequest);
+            return userRepository.save(newUser);
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Khong tim thay so dien thoai");
+        }
+    }
+    @Override
+    public Boolean login(UserRequest userRequest) {
+        Optional<User> userFound=userRepository.findByPhoneNumber(userRequest.getPhoneNumber());
+        if(userFound.isEmpty()){
+            return  false;
+        }
+        String passwordRequest=userRequest.getPassword();
+        String password=userFound.get().getPassword();
+        return  password.equals(passwordRequest);
     }
 
     @Override

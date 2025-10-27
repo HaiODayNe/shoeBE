@@ -9,7 +9,7 @@ public interface UserService {
     //3. xác thực
     //4. liên kết với thông tin cá nhân
     User createUser(UserRequest userRequest);
-    Boolean signUp(UserRequest userRequest);
+    Boolean login(UserRequest userRequest);
     User updateUserPassword(String phoneNumber, String password);
     User forgotPassword(String phoneNumber);
 }

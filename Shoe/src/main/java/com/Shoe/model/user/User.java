@@ -1,5 +1,6 @@
 package com.Shoe.model.user;
 
+import com.Shoe.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,11 +14,7 @@ import java.util.Date;
 @Table(name = "users")
 
 public class User {
-    public enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
-    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String UUID;

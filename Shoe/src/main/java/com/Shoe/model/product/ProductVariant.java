@@ -22,7 +22,7 @@ public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="productVariantCode",unique = true)
+    @Column(name="product_variant_code",unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)

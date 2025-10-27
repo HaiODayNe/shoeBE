@@ -1,5 +1,6 @@
 package com.Shoe.dto.request.customerRequest.user;
 
+import com.Shoe.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
-    public enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
-    }
+
     private String firstName;
     private String lastName;
     private String password;
