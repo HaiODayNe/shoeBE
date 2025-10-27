@@ -25,9 +25,7 @@ public class ProductVariant {
     @Column(name="product_variant_code",unique = true)
     private String code;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 
     @Column(name = "size", nullable = false)
     private int size;

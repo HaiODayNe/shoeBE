@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
             User newUser= UserDTOConverter.ConvertToEntity(userRequest);
             return userRepository.save(newUser);
         }else{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Khong tim thay so dien thoai");
+            throw new ResponseStatusException (HttpStatus.BAD_REQUEST, "Khong tim thay so dien thoai");
         }
     }
     @Override
