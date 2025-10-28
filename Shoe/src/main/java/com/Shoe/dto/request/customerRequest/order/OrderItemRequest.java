@@ -1,5 +1,6 @@
 package com.Shoe.dto.request.customerRequest.order;
 
+import com.Shoe.enums.Gender;
 import com.Shoe.model.product.Brand;
 import com.Shoe.model.product.Category;
 import lombok.AllArgsConstructor;
@@ -12,11 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemRequest {
-    public enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
-    }
+
     private Long id;
     private String name;
     private Category category;

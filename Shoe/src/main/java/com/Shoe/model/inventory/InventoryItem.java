@@ -1,6 +1,6 @@
 package com.Shoe.model.inventory;
 
-import com.Shoe.enumStatus.InventoryItemStatus;
+import com.Shoe.enums.InventoryItemStatus;
 import com.Shoe.model.product.ProductVariant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,13 +24,10 @@ public class InventoryItem {
     @Enumerated(EnumType.STRING)
     private InventoryItemStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "variant_id",nullable = false)
-    private ProductVariant productVariant;
+    private Long productVariantId;
 
-    @ManyToOne
-    @JoinColumn(name = "warehouse_id",nullable = false)
-    private Inventory warehouse;
+    private Long inventoryId;
+
     private int quantity;
 
 

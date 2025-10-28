@@ -1,4 +1,4 @@
-package com.Shoe.dto.response.adminRequest;
+package com.Shoe.dto.response.adminResponse;
 
 public class CartResponse {
 }

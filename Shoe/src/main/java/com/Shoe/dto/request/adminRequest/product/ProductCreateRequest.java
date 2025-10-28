@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.Shoe.enumStatus.InventoryItemStatus;
+import com.Shoe.enums.InventoryItemStatus;
 @Getter
 @Setter
 @NoArgsConstructor

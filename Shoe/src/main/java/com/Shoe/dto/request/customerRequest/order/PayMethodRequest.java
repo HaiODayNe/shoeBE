@@ -1,5 +1,6 @@
 package com.Shoe.dto.request.customerRequest.order;
 
+import com.Shoe.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PayMethodRequest {
-    private enum paymentMethod {
-        CARD,
-        WALLET,
-        COD
-    }
-    private paymentMethod paymentMethod;
+
+    private PaymentMethod paymentMethod;
 }

@@ -20,7 +20,7 @@ public class ProductAdminResponse {
     private Long id;
     private String name;
     private String productCode;
-    private Category category;
-    private Brand brand;
-    private  List<ProductVariantAdResponse> productVariants;
+    private String category;
+    private String brand;
+//    private  List<ProductVariantAdResponse> productVariants;
 }

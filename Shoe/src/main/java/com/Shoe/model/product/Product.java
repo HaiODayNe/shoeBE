@@ -30,19 +30,15 @@ public class Product {
     private String name;
     @Column(name="product_code", nullable = false, unique = true)
     private String productCode;
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "brand_id", nullable = false)
-    private Brand brand;
+    private Long categoryId;
+
+    private Long brandId;
 
     @Column(name = "updateAt", nullable = false)
     private LocalDateTime updateAt;
 
-    @OneToMany(mappedBy = "product")
-    List<ProductVariant> productVariants = new ArrayList<>();
+//    List<?> productVariants;
 
     @PrePersist
     public void prePersist() {

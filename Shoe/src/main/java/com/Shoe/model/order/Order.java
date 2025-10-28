@@ -1,5 +1,7 @@
 package com.Shoe.model.order;
 
+import com.Shoe.enums.OrderStatus;
+import com.Shoe.enums.PaymentMethod;
 import com.Shoe.model.cart.Cart;
 import com.Shoe.model.customer.CustomerInfo;
 import com.Shoe.model.discount.Discount;
@@ -21,24 +23,9 @@ import java.util.List;
 @Entity
 @Table(name = "Orders")
 public class Order {
-    public enum Status {
-        PENDING,
-        PAID,
-        PROCESSING,
-        SHIPPED,
-        DELIVERED,
-        CANCELED,
-        REJECTED
-    }
-
-    private enum paymentMethod {
-        CARD,
-        WALLET,
-        COD
-    }
 
     @Id
-    @Column(name = "order_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
     @Column(nullable = false)
@@ -52,25 +39,22 @@ public class Order {
     private BigDecimal shippingFee;
     private BigDecimal discountAmount;
 
-    @Enumerated(EnumType.STRING)
-    @ManyToOne
-    private CustomerInfo customerInfo;
+    private Long customerInfoId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    List<OrderDetail> orderDetails = new ArrayList<>();
+//    List<OrderDetail> orderDetails;
 
     @Column(name = "order_date", nullable = false, updatable = false)
     private Date orderDate;
 
     @Enumerated(EnumType.STRING)
-    private paymentMethod paymentMethod;
+    private PaymentMethod paymentMethod;
 
     @OneToOne
     private Discount discount;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private OrderStatus status;
 
     private String shippingAddress;
 

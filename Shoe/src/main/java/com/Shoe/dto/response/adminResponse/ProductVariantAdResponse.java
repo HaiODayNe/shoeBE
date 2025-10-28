@@ -26,7 +26,7 @@ public class ProductVariantAdResponse {
     private int quantity;
     private String warehouse;
     private String status;
-    private Gender gender;
+    private String gender;
 
 
 }

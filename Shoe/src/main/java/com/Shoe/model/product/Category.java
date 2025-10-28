@@ -20,7 +20,7 @@ public class Category {
     private Long id;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-    private List<Product> products;
+
+//    private List<Product> products;
 
 }

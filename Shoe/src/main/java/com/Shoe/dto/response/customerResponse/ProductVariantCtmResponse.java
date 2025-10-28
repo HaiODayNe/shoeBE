@@ -17,6 +17,6 @@ public class ProductVariantCtmResponse {
     private double price;
     private String version;
     private String color;
-    private Gender gender;
+    private String gender;
 
 }

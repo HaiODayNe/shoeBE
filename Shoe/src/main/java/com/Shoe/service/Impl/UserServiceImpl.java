@@ -19,23 +19,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserRequest userRequest) {
-        Optional<User> userFound=userRepository.findByPhoneNumber(userRequest.getPhoneNumber());
-        if(userFound.isEmpty()){
-            User newUser= UserDTOConverter.ConvertToEntity(userRequest);
-            return userRepository.save(newUser);
-        }else{
-            throw new ResponseStatusException (HttpStatus.BAD_REQUEST, "Khong tim thay so dien thoai");
-        }
+//        Optional<User> userFound=userRepository.findByPhoneNumber(userRequest.getPhoneNumber());
+//        if(userFound.isEmpty()){
+//            User newUser= UserDTOConverter.ConvertToEntity(userRequest);
+//            return userRepository.save(newUser);
+//        }else{
+//            throw new ResponseStatusException (HttpStatus.BAD_REQUEST, "Khong tim thay so dien thoai");
+//        }
+        return null;
     }
     @Override
     public Boolean login(UserRequest userRequest) {
-        Optional<User> userFound=userRepository.findByPhoneNumber(userRequest.getPhoneNumber());
-        if(userFound.isEmpty()){
-            return  false;
-        }
-        String passwordRequest=userRequest.getPassword();
-        String password=userFound.get().getPassword();
-        return  password.equals(passwordRequest);
+//        Optional<User> userFound=userRepository.findByPhoneNumber(userRequest.getPhoneNumber());
+//        if(userFound.isEmpty()){
+//            return  false;
+//        }
+//        String passwordRequest=userRequest.getPassword();
+//        String password=userFound.get().getPassword();
+//        return  password.equals(passwordRequest);
+        return null;
     }
 
     @Override

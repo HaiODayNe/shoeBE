@@ -22,7 +22,8 @@ public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="product_variant_code",unique = true)
+
+    @Column(name="code",unique = true)
     private String code;
 
     private Long productId;
@@ -43,7 +44,6 @@ public class ProductVariant {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY,orphanRemoval = true)
-    private List<InventoryItem> inventoryItems;
+//    private List<InventoryItem> inventoryItems;
 
 }

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -28,7 +27,6 @@ public class Inventory {
     @Column(name = "location", nullable = false)
     private String location;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<InventoryItem> inventoryItem = new HashSet<>();
+//    private Set<InventoryItem> inventoryItem;
 
 }

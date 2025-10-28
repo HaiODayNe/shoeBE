@@ -19,12 +19,12 @@ public class ProductCustomerResponse {
     private Long id;
     private String name;
     private String productCode;
-    private Category category;
-    private Brand brand;
+    private String category;
+    private String brand;
     private int size;
     private String code;
     private double price;
     private String version;
     private String color;
-    private Gender gender;
+    private String gender;
 }

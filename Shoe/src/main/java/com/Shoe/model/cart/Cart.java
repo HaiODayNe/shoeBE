@@ -22,12 +22,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private User user;
+    private Long userId;
 
-    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<CartItem> cartItems;
+//    private List<CartItem> cartItems;
 
     @Column(name="total_amount")
     private Double totalAmount;

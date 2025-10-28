@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    ResponseEntity<?>  getProduct(Long id,Long userId);
+    ResponseEntity<?>  getProduct(String productCode,Long userId);
 
     ResponseEntity<?> addProduct(ProductCreateRequest productCreateRequest);
 

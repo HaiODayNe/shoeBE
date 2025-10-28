@@ -1,4 +1,4 @@
-package com.Shoe.enumStatus;
+package com.Shoe.enums;
 
 public enum InventoryItemStatus {
     HANG_MOI,
