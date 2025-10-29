@@ -1,10 +1,6 @@
 package com.Shoe.dto.response.adminResponse;
 
-import com.Shoe.dto.response.adminResponse.ProductVariantAdResponse;
 import com.Shoe.enums.Gender;
-import com.Shoe.model.product.Brand;
-import com.Shoe.model.product.Category;
-import com.Shoe.model.product.ProductVariant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +18,13 @@ public class ProductAdminResponse {
     private String productCode;
     private String category;
     private String brand;
-//    private  List<ProductVariantAdResponse> productVariants;
+    private int size;
+    private String code;
+    private double price;
+    private String version;
+    private String color;
+    private int quantity;
+    private List<String> warehouse;
+    private String status;
+    private Gender gender;
 }

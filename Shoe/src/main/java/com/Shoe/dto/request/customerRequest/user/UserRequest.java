@@ -16,9 +16,10 @@ public class UserRequest {
 
     private String firstName;
     private String lastName;
-    private String password;
     private String phoneNumber;
-    private String address;
-    private Gender gender;
+    private String password;
     private Date birthDate;
+    private Gender gender;
+    private String address;
+
 }
