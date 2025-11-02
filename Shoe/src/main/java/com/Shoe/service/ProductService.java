@@ -2,6 +2,7 @@ package com.Shoe.service;
 
 import com.Shoe.dto.request.adminRequest.product.ProductCreateRequest;
 import com.Shoe.dto.request.adminRequest.product.ProductUpdateRequest;
+import com.Shoe.dto.response.adminResponse.ProductAdminResponse;
 import com.Shoe.dto.response.customerResponse.ProductCustomerResponse;
 import com.Shoe.model.inventory.InventoryItem;
 import com.Shoe.model.product.Category;
@@ -21,8 +22,8 @@ public interface ProductService {
 
     ResponseEntity<String> deleteProduct(String code);
 
-    Page<?> getAllAdminProducts(int page, int pageSize, String sortBy, String sortDirection);
-    Page<?> getAllCtmProducts(int page, int pageSize, String sortBy, String sortDirection);
+    Page<ProductAdminResponse> getAllAdminProducts(int page, int pageSize, String sortBy, String sortDirection);
+    Page<ProductCustomerResponse> getAllCtmProducts(int page, int pageSize, String sortBy, String sortDirection);
     List<Product> getProductsByCategory(int id, int page, int pageSize, String sortBy, String sortDirection);
 
     List<Product> getProductsByBrand(int id, int page, int pageSize, String sortBy, String sortDirection);

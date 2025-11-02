@@ -1,6 +1,7 @@
 package com.Shoe.dto.response.adminResponse;
 
 import com.Shoe.enums.Gender;
+import com.Shoe.enums.InventoryItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductAdminResponse {
-    private Long id;
     private String name;
     private String productCode;
     private String category;
@@ -25,6 +25,6 @@ public class ProductAdminResponse {
     private String color;
     private int quantity;
     private List<String> warehouse;
-    private String status;
+    private List<InventoryItemStatus> status;
     private Gender gender;
 }

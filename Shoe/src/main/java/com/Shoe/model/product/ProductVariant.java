@@ -23,9 +23,9 @@ public class ProductVariant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="code",unique = true)
+    @Column(name = "code", unique = true)
     private String code;
-
+    @Column(name = "product_id")
     private Long productId;
 
     @Column(name = "size", nullable = false)

@@ -23,7 +23,7 @@ public class InventoryItem {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private InventoryItemStatus status;
-
+    @Column(name = "product_variant_id")
     private Long productVariantId;
 
     private Long inventoryId;

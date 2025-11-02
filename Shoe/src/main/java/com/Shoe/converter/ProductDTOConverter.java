@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 @Component
 public class ProductDTOConverter {
 
-    public static List<ProductAdminResponse> convertToAdminResponse(Product product, Brand brand, Category category, List<ProductVariant> productVariants, List<InventoryItem> inventoryItems, List<Inventory> inventories) {
+    public static List<ProductAdminResponse> convertToAdminResponse(Product product,
+       Brand brand, Category category, List<ProductVariant> productVariants, List<InventoryItem> inventoryItems, List<Inventory> inventories) {
         List<ProductAdminResponse> productAdminResponses = new ArrayList<>();
             for (ProductVariant productVariant : productVariants) {
                 ProductAdminResponse productAdminResponse= new ProductAdminResponse();
-                productAdminResponse.setId(product.getId());
                 productAdminResponse.setName(product.getName());
                 productAdminResponse.setProductCode(product.getProductCode());
                 productAdminResponse.setBrand(brand.getName());
@@ -40,10 +40,12 @@ public class ProductDTOConverter {
                 productAdminResponse.setVersion(productVariant.getVersion());
                 productAdminResponse.setColor(productVariant.getColor());
                 productAdminResponse.setGender(productVariant.getGender());
+                productAdminResponse.setCode(productVariant.getCode());
                 productAdminResponse.setQuantity(
                         inventoryItems.stream().map(InventoryItem::getQuantity).reduce(0, Integer::sum)
                 );
                 productAdminResponse.setWarehouse(inventories.stream().map(Inventory::getName).collect(Collectors.toList()));
+                productAdminResponse.setStatus(inventoryItems.stream().map(InventoryItem::getStatus).collect(Collectors.toList()));
                 productAdminResponses.add(productAdminResponse);
             }
         return productAdminResponses;

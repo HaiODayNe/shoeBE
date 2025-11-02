@@ -13,7 +13,6 @@ import com.Shoe.enums.InventoryItemStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCreateRequest {
-    private Long id;
     private String name;
     private String productCode;
     private Category category;

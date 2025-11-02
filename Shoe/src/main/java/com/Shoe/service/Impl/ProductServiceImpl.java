@@ -22,6 +22,7 @@ import com.Shoe.repository.product.ProductRepository;
 import com.Shoe.repository.product.ProductVariantRepository;
 import com.Shoe.repository.user.AdminRepository;
 import com.Shoe.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
@@ -42,9 +43,6 @@ public class ProductServiceImpl implements ProductService {
     private AdminRepository adminRepository;
     @Autowired
     private InventoryRepository inventoryRepository;
-
-    @Autowired
-    private EntityConverter entityConverter;
     @Autowired
     private InventoryItemRepository inventoryItemRepository;
     @Autowired
@@ -54,94 +52,87 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<?> addProduct(ProductCreateRequest productCreateRequest) {
-        //1. check productVariantCode: đã tồn tại thì thôi
-        //2. chưa tồn tại -> check productCode
-        //3. nếu đã tồn tại productCode-> thêm moi variant
-        //4. chua ton tai -> them moi product
-        Optional<Product> product = productRepository.findProductByCode(productCreateRequest.getProductCode());
+        Optional<Product> product = productRepository.findByProductCode(productCreateRequest.getProductCode());
         Optional<ProductVariant> productVariant = productVariantRepository.findProductVariantByCode(productCreateRequest.getProductVariantCode());
-        Optional<InventoryItem> inventoryItem = inventoryItemRepository.findByWarehouseCode(productCreateRequest.getWarehouseCode());
-        Inventory inventory = inventoryRepository.findByWarehouseCode(productCreateRequest.getWarehouseCode()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Brand brand = brandRepository.findByName(productCreateRequest.getBrand()).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Category category = categoryRepository.findByName(productCreateRequest.getCategory()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Inventory inventory = inventoryRepository.findByWarehouseCode(productCreateRequest.getWarehouseCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay kho"));
+        Brand brand = brandRepository.findByName(productCreateRequest.getBrand().getName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay Brand"));
+        Category category = categoryRepository.findByName(productCreateRequest.getCategory().getName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay Category"));
+
         if (productVariant.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product already exists");
-
-        } else if(product.isPresent()) {
-            ProductVariant newProductVariant = EntityConverter.convertCreateProductVariant(productCreateRequest,product);
-        } else {
-            Product newProduct =new Product();
-            ProductVariant newProductVariant = new ProductVariant();
-            InventoryItem newInventoryItem = new InventoryItem();
-            newProduct=EntityConverter.convertCreateProduct(productCreateRequest,category,brand);
-            newProductVariant=EntityConverter.convertCreateProductVariant(productCreateRequest, Optional.of(newProduct));
-            newInventoryItem=EntityConverter.convertCreateInventoryItem(productCreateRequest,newProductVariant,inventory);
-
         }
+        ProductVariant newProductVariant;
+        if (product.isPresent()) {
+            newProductVariant = EntityConverter.convertCreateProductVariant(productCreateRequest, product);
+            productVariantRepository.save(newProductVariant);
+        } else {
+            Product newProduct = EntityConverter.convertCreateProduct(productCreateRequest, category, brand);
+            productRepository.save(newProduct);
+            newProductVariant = EntityConverter.convertCreateProductVariant(productCreateRequest, Optional.of(newProduct));
+            productVariantRepository.save(newProductVariant);
+        }
+        InventoryItem newInventoryItem = EntityConverter.convertCreateInventoryItem(productCreateRequest, newProductVariant, inventory);
+        inventoryItemRepository.save(newInventoryItem);
         return ResponseEntity.status(HttpStatus.OK).body("Them san pham thanh cong");
     }
 
     @Override
     public ResponseEntity<?> getProduct(String productCode, Long userId) {
-        Product productFound = productRepository.findByProductCode(productCode).orElseThrow(()->new ProductNotFoundException("khong tim thay san pham"));
+        Product productFound = productRepository.findByProductCode(productCode).orElseThrow(() -> new ProductNotFoundException("khong tim thay san pham"));
         List<ProductVariant> productVariant = productVariantRepository.findByProductId(productFound.getId());
-        List<InventoryItem> inventoryItem = inventoryItemRepository.findByProductVariantId(productVariant
+        List<InventoryItem> inventoryItem = inventoryItemRepository.findByProductVariantIdIn(productVariant
                 .stream()
                 .map(variant -> variant.getId())
                 .collect(Collectors.toList()));
-        List<Inventory> inventory = inventoryRepository.findByInventoryItemId(inventoryItem
+        List<Inventory> inventory = inventoryRepository.findByIdIn(inventoryItem
                 .stream()
-                .map(item->item.getInventoryId())
+                .map(item -> item.getInventoryId())
                 .collect(Collectors.toList())
         );
-        Brand brand = brandRepository.findByProductId(productFound.getBrandId()).orElse(null);
-        Category category = categoryRepository.findByProductId(productFound.getCategoryId()).orElse(null);
+        Brand brand = brandRepository.findById(productFound.getBrandId()).orElse(null);
+        Category category = categoryRepository.findById(productFound.getCategoryId()).orElse(null);
+        if(userId==null) {
+            List<ProductCustomerResponse> productCustomerResponse = ProductDTOConverter.convertDTOCustomer(productFound, productVariant, category, brand);
+            return ResponseEntity.ok(productCustomerResponse);
+        }
         Optional<Admin> adminFound = adminRepository.findById(userId);
         if (adminFound.isPresent()) {
             List<ProductAdminResponse> productAdminResponse = ProductDTOConverter
-                    .convertToAdminResponse(productFound,brand,category,productVariant,inventoryItem,inventory);
+                    .convertToAdminResponse(productFound, brand, category, productVariant, inventoryItem, inventory);
             return ResponseEntity.ok(productAdminResponse);
-        } else {
-            List<ProductCustomerResponse> productCustomerResponse = ProductDTOConverter.convertDTOCustomer(productFound,productVariant,category,brand);
-            return ResponseEntity.ok(productCustomerResponse);
         }
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
     }
-
+    @Transactional
     @Override
-    public ResponseEntity<Product> updateProduct(String code, ProductUpdateRequest productUpdateRequest) {
-        Optional<Product> productFound = productRepository.findProductByCode(code);
-        Product updateProduct = productFound.orElseThrow(() -> new ProductNotFoundException("Khong tim thay san pham"));
-        entityConverter.convertUpdateProduct(productUpdateRequest);
-        productRepository.save(updateProduct);
-        ProductVariant productVariant = productVariantRepository.findProductVariantByCode(productUpdateRequest.getProductVariantCode())
-                .orElseGet(() -> {
-                    ProductVariant newProductVariant = entityConverter.convertUpdateProductVariant(productUpdateRequest, updateProduct);
-                    newProductVariant.setProduct(updateProduct);
-                    return newProductVariant;
-                });
-        entityConverter.convertUpdateProductVariant(productUpdateRequest, updateProduct);
-        updateProduct.getProductVariants().add(productVariant);
-        productVariantRepository.save(productVariant);
-        InventoryItem inventoryItem = inventoryItemRepository.findByWarehouseCode(productUpdateRequest.getWarehouseCode()).orElseThrow(
-                () -> {
-                    return new ResponseStatusException(HttpStatus.NOT_FOUND, "Khong tim thay kho");
-                }
-        );
-        entityConverter.convertUpdateInventoryItem(productUpdateRequest, productVariant);
-        productVariant.getInventoryItems().add(inventoryItem);
-        inventoryItemRepository.save(inventoryItem);
+    public ResponseEntity<String> updateProduct(String code, ProductUpdateRequest productUpdateRequest) {
+        Product productFound = productRepository.findByProductCode(code).orElseThrow(() -> new ProductNotFoundException("Khong tim thay san pham"));
+        Brand brand = brandRepository.findById(productFound.getBrandId()).orElse(null);
+        Category category = categoryRepository.findById(productFound.getCategoryId()).orElse(null);
+        List<ProductVariant>  productVariants = productVariantRepository.findByProductId(productFound.getId());
+        List<InventoryItem> inventoryItems = inventoryItemRepository.findByProductVariantIdIn(productVariants.stream().map(ProductVariant::getId).toList());
+        List<Inventory> inventory = inventoryRepository.findByIdIn(inventoryItems.stream().map(InventoryItem::getInventoryId).toList());
+
+        EntityConverter.convertUpdateProduct(productFound, productUpdateRequest, category, brand);
+        productRepository.save(productFound);
+        for(ProductVariant productVariant : productVariants) {
+            EntityConverter.convertUpdateProductVariant(productUpdateRequest, productFound);
+            productVariantRepository.save(productVariant);
+        }
+//      for (InventoryItem inventoryItem : inventoryItems) {
+//          EntityConverter.convertUpdateInventoryItem(productUpdateRequest, productVariants, inventory);
+//      }
+//
+//        productVariantRepository.save(productVariant);
+//        inventoryItemRepository.save(inventoryItem);
         return ResponseEntity.status(HttpStatus.OK).body("Cap nhat san pham thanh cong");
-        return null;
     }
 
     @Override
     public ResponseEntity<String> deleteProduct(String code) {
-        Product product = productRepository.findProductByCode(code).orElseThrow(() -> {
-            return new ProductNotFoundException("Khong tim thay san pham");
-        });
+        Product product = productRepository.findByProductCode(code).orElseThrow(() -> new ProductNotFoundException("Khong tim thay san pham"));
         productRepository.delete(product);
         return ResponseEntity.status(HttpStatus.OK).body("Xoa san pham thanh cong");
-        return null;
     }
 
     @Override
@@ -149,54 +140,46 @@ public class ProductServiceImpl implements ProductService {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.DESC.name())
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
-        if (pageSize < 0) {
-            pageSize = 0;
-        }
-        if (pageSize < 5) {
-            pageSize = 5;
-        }
+        if (pageSize < 1) pageSize = 1;
+        if (pageSize > 5) pageSize = 5;
         Pageable pageable = PageRequest.of(page, pageSize, sort);
         Page<Product> products = productRepository.findAll(pageable);
         List<ProductAdminResponse> productAdminResponseList = new ArrayList<>();
         for (Product product : products) {
-            ProductAdminResponse productAdminResponse = ProductDTOConverter.convertToAdminResponse(product);
-            productAdminResponseList.add(productAdminResponse);
+            Brand brand = brandRepository.findById(product.getBrandId()).orElse(null);
+            Category category = categoryRepository.findById(product.getCategoryId()).orElse(null);
+            List<ProductVariant> productVariants = productVariantRepository.findByProductId(product.getId());
+            List<InventoryItem> inventoryItems = inventoryItemRepository.findByProductVariantIdIn(productVariants
+                            .stream()
+                            .map(ProductVariant::getId)
+                            .toList()) ;
+            List<Inventory> inventories =inventoryRepository.findByIdIn(inventoryItems
+                    .stream()
+                    .map(InventoryItem::getId)
+                    .toList());
+            productAdminResponseList.addAll(
+                    ProductDTOConverter.convertToAdminResponse(product, brand, category, productVariants, inventoryItems, inventories));
         }
         return new PageImpl<>(productAdminResponseList, pageable, products.getTotalElements());
-        return null;
     }
 
     @Override
-    public Page<Product> getAllCtmProducts(int page, int pageSize, String sortBy, String sortDirection) {
+    public Page<ProductCustomerResponse> getAllCtmProducts(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.DESC.name())
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
-        if (pageSize < 0) {
-            pageSize = 0;
-        }
-        if (pageSize > 5) {
-            pageSize = 5;
-        }
+        if (pageSize < 1) pageSize = 1;
+        if (pageSize > 5) pageSize = 5;
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Pageable getProductPage = PageRequest.of(0, 5, sort);
-        Page<Product> products = productRepository.findAll(getProductPage);
-        List<ProductCustomerResponse> productCustomerResponses = new ArrayList<>();
+        Page<Product> products = productRepository.findAll(pageable);
+        List<ProductCustomerResponse> productCtmResponseList = new ArrayList<>();
         for (Product product : products) {
-            List<ProductCustomerResponse> productCustomerResponseList = ProductDTOConverter.convertDTOCustomer(product);
-            productCustomerResponses.addAll(productCustomerResponseList);
+            Brand brand = brandRepository.findById(product.getBrandId()).orElse(null);
+            Category category = categoryRepository.findById(product.getCategoryId()).orElse(null);
+            List<ProductVariant> productVariants = productVariantRepository.findByProductId(product.getId());
+            productCtmResponseList.addAll(ProductDTOConverter.convertDTOCustomer(product,productVariants,category, brand));
         }
-        long offset = pageable.getOffset();
-        int total = productCustomerResponses.size();
-        if (offset >= total) {
-            return new PageImpl<>(Collections.emptyList(), pageable, total);
-        }
-        ;
-
-        int endIndex = (int) Math.min(offset + pageable.getPageSize(), total);
-        int startIndex = (int) offset;
-        List<ProductCustomerResponse> pageCustomerResponses = productCustomerResponses.subList(startIndex, endIndex);
-        return new PageImpl<>(pageCustomerResponses, pageable, total);
-        return null;
+        return new PageImpl<>(productCtmResponseList, pageable, products.getTotalElements());
 
     }
 

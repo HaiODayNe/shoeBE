@@ -1,5 +1,8 @@
 package com.Shoe.model.product;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,6 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "products")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Product {
 
     @Id
@@ -38,7 +43,6 @@ public class Product {
     @Column(name = "updateAt", nullable = false)
     private LocalDateTime updateAt;
 
-//    List<?> productVariants;
 
     @PrePersist
     public void prePersist() {

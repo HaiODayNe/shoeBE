@@ -21,6 +21,5 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-//    private List<Product> products;
 
 }

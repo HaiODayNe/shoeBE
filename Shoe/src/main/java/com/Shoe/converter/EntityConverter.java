@@ -26,12 +26,13 @@ public class EntityConverter {
 
     public static ProductVariant convertCreateProductVariant(ProductCreateRequest productCreateRequest, Optional<Product> product) {
         ProductVariant productVariant = new ProductVariant();
-        productVariant.setCode(productCreateRequest.getProductCode());
+        productVariant.setCode(productCreateRequest.getProductVariantCode());
         productVariant.setSize(productCreateRequest.getSize());
         productVariant.setVersion(productCreateRequest.getVersion());
         productVariant.setPrice(productCreateRequest.getPrice());
         productVariant.setColor(productCreateRequest.getColor());
         productVariant.setProductId(product.get().getId());
+        productVariant.setGender(productCreateRequest.getGender());
         return productVariant;
     }
 
@@ -70,7 +71,7 @@ public class EntityConverter {
         inventoryItem.setInventoryId(inventory.getId());
         inventoryItem.setQuantity(productUpdateRequest.getQuantity());
         inventoryItem.setStatus(productUpdateRequest.getStatus());
-        inventoryItem.setProductVariantId(inventory.getId());
+        inventoryItem.setProductVariantId(productVariant.getId());
         return inventoryItem;
     }
 

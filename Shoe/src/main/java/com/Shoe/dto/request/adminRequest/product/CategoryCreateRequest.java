@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatalogueCreateRequest {
+public class CategoryCreateRequest {
     private String name;
 }
