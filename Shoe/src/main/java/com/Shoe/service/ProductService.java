@@ -22,8 +22,8 @@ public interface ProductService {
 
     ResponseEntity<String> deleteProduct(String code);
 
-    Page<ProductAdminResponse> getAllAdminProducts(int page, int pageSize, String sortBy, String sortDirection);
-    Page<ProductCustomerResponse> getAllCtmProducts(int page, int pageSize, String sortBy, String sortDirection);
+    List<ProductAdminResponse> getAllAdminProducts();
+    List<ProductCustomerResponse> getAllCtmProducts();
     List<Product> getProductsByCategory(int id, int page, int pageSize, String sortBy, String sortDirection);
 
     List<Product> getProductsByBrand(int id, int page, int pageSize, String sortBy, String sortDirection);

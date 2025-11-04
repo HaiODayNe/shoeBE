@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="inventory")
+@RequestMapping(value="/api/inventory")
 public class InventoryController {
 }

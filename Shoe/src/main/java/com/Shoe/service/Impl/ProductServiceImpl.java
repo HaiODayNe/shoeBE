@@ -136,14 +136,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductAdminResponse> getAllAdminProducts(int page, int pageSize, String sortBy, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.DESC.name())
-                ? Sort.by(sortBy).descending()
-                : Sort.by(sortBy).ascending();
-        if (pageSize < 1) pageSize = 1;
-        if (pageSize > 5) pageSize = 5;
-        Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<Product> products = productRepository.findAll(pageable);
+    public List<ProductAdminResponse> getAllAdminProducts() {
+        List<Product> products = productRepository.findAll();
         List<ProductAdminResponse> productAdminResponseList = new ArrayList<>();
         for (Product product : products) {
             Brand brand = brandRepository.findById(product.getBrandId()).orElse(null);
@@ -160,18 +154,13 @@ public class ProductServiceImpl implements ProductService {
             productAdminResponseList.addAll(
                     ProductDTOConverter.convertToAdminResponse(product, brand, category, productVariants, inventoryItems, inventories));
         }
-        return new PageImpl<>(productAdminResponseList, pageable, products.getTotalElements());
+        return productAdminResponseList ;
     }
 
     @Override
-    public Page<ProductCustomerResponse> getAllCtmProducts(int page, int pageSize, String sortBy, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.DESC.name())
-                ? Sort.by(sortBy).descending()
-                : Sort.by(sortBy).ascending();
-        if (pageSize < 1) pageSize = 1;
-        if (pageSize > 5) pageSize = 5;
-        Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<Product> products = productRepository.findAll(pageable);
+    public List<ProductCustomerResponse> getAllCtmProducts() {
+
+        List<Product> products = productRepository.findAll();
         List<ProductCustomerResponse> productCtmResponseList = new ArrayList<>();
         for (Product product : products) {
             Brand brand = brandRepository.findById(product.getBrandId()).orElse(null);
@@ -179,7 +168,7 @@ public class ProductServiceImpl implements ProductService {
             List<ProductVariant> productVariants = productVariantRepository.findByProductId(product.getId());
             productCtmResponseList.addAll(ProductDTOConverter.convertDTOCustomer(product,productVariants,category, brand));
         }
-        return new PageImpl<>(productCtmResponseList, pageable, products.getTotalElements());
+        return productCtmResponseList;
 
     }
 

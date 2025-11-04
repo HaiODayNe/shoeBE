@@ -11,13 +11,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping( "/product")
+@RequestMapping( "/api/product")
 public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/{add}")
+    @PostMapping("/add")
     public ResponseEntity<?> addProduct(@RequestBody ProductCreateRequest productCreateRequest) {
         return productService.addProduct(productCreateRequest);
     }
@@ -27,33 +29,26 @@ public class ProductController {
         return productService.getProduct(productCode, userId);
     }
 
-    @PutMapping("/{update}")
+    @PutMapping("/update")
     public ResponseEntity<?> updateProduct(@RequestParam String code, @RequestBody ProductUpdateRequest productUpdateRequest) {
         return productService.updateProduct(code, productUpdateRequest);
     }
 
-    @DeleteMapping("/{delete}")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteProduct(@RequestParam String code) {
         return productService.deleteProduct(code);
     }
 
     @GetMapping("/admin")
-    public Page<ProductAdminResponse> getAllAdminProducts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "ASC") String sortDirection
+    public List<ProductAdminResponse> getAllAdminProducts(
     ) {
-        return productService.getAllAdminProducts(page, pageSize, sortBy, sortDirection);
+        return productService.getAllAdminProducts();
     }
 
     @GetMapping("/customer")
-    public Page<ProductCustomerResponse> getAllCustomerProducts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int pageSize,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "ASC") String sortDirection
+    public List<ProductCustomerResponse> getAllCustomerProducts(
+
     ) {
-        return productService.getAllCtmProducts(page, pageSize, sortBy, sortDirection);
+        return productService.getAllCtmProducts();
     }
 }
