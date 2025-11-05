@@ -55,8 +55,8 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> product = productRepository.findByProductCode(productCreateRequest.getProductCode());
         Optional<ProductVariant> productVariant = productVariantRepository.findProductVariantByCode(productCreateRequest.getProductVariantCode());
         Inventory inventory = inventoryRepository.findByWarehouseCode(productCreateRequest.getWarehouseCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay kho"));
-        Brand brand = brandRepository.findByName(productCreateRequest.getBrand().getName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay Brand"));
-        Category category = categoryRepository.findByName(productCreateRequest.getCategory().getName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay Category"));
+        Brand brand = brandRepository.findByName(productCreateRequest.getBrand()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay Brand"));
+        Category category = categoryRepository.findByName(productCreateRequest.getCategory()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Khong tim thay Category"));
 
         if (productVariant.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product already exists");
@@ -77,8 +77,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<?> getProduct(String productCode, Long userId) {
-        Product productFound = productRepository.findByProductCode(productCode).orElseThrow(() -> new ProductNotFoundException("khong tim thay san pham"));
+    public ResponseEntity<?> getProduct(Long id, Long userId) {
+        Product productFound = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("khong tim thay san pham"));
         List<ProductVariant> productVariant = productVariantRepository.findByProductId(productFound.getId());
         List<InventoryItem> inventoryItem = inventoryItemRepository.findByProductVariantIdIn(productVariant
                 .stream()
@@ -98,10 +98,10 @@ public class ProductServiceImpl implements ProductService {
         Optional<Admin> adminFound = adminRepository.findById(userId);
         if (adminFound.isPresent()) {
             List<ProductAdminResponse> productAdminResponse = ProductDTOConverter
-                    .convertToAdminResponse(productFound, brand, category, productVariant, inventoryItem, inventory);
+                    .convertToAdminResponse(productFound, brand, category, productVariant, inventoryItem );
             return ResponseEntity.ok(productAdminResponse);
         }
-        return ResponseEntity.status(HttpStatus.OK).body("ok");
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @Transactional
     @Override
@@ -112,19 +112,12 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVariant>  productVariants = productVariantRepository.findByProductId(productFound.getId());
         List<InventoryItem> inventoryItems = inventoryItemRepository.findByProductVariantIdIn(productVariants.stream().map(ProductVariant::getId).toList());
         List<Inventory> inventory = inventoryRepository.findByIdIn(inventoryItems.stream().map(InventoryItem::getInventoryId).toList());
-
         EntityConverter.convertUpdateProduct(productFound, productUpdateRequest, category, brand);
         productRepository.save(productFound);
         for(ProductVariant productVariant : productVariants) {
             EntityConverter.convertUpdateProductVariant(productUpdateRequest, productFound);
             productVariantRepository.save(productVariant);
         }
-//      for (InventoryItem inventoryItem : inventoryItems) {
-//          EntityConverter.convertUpdateInventoryItem(productUpdateRequest, productVariants, inventory);
-//      }
-//
-//        productVariantRepository.save(productVariant);
-//        inventoryItemRepository.save(inventoryItem);
         return ResponseEntity.status(HttpStatus.OK).body("Cap nhat san pham thanh cong");
     }
 
@@ -152,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
                     .map(InventoryItem::getId)
                     .toList());
             productAdminResponseList.addAll(
-                    ProductDTOConverter.convertToAdminResponse(product, brand, category, productVariants, inventoryItems, inventories));
+                    ProductDTOConverter.convertToAdminResponse(product, brand, category, productVariants, inventoryItems));
         }
         return productAdminResponseList ;
     }

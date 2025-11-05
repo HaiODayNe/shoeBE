@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,10 +28,19 @@ import java.util.stream.Collectors;
 public class ProductDTOConverter {
 
     public static List<ProductAdminResponse> convertToAdminResponse(Product product,
-       Brand brand, Category category, List<ProductVariant> productVariants, List<InventoryItem> inventoryItems, List<Inventory> inventories) {
-        List<ProductAdminResponse> productAdminResponses = new ArrayList<>();
+       Brand brand, Category category, List<ProductVariant> productVariants, List<InventoryItem> inventoryItems) {
+            List<ProductAdminResponse> productAdminResponses = new ArrayList<>();
+            // gom nhóm các sản phẩm giống nhau
+            // loại UB23-WHT40 = [{size: 40,...}, {size: 41,...}]
+            // loại UB23-WHT41 = [{size: 1}, {size: 2}]
+//        Map<String, List<ProductVariant>> mapProductVariants = productVariants.stream().collect(Collectors.groupingBy(ProductVariant::getCode));
+//        {
+//            "UB23-WHT40": [{size: 1}, {size: 2}],
+//            "UB23-WHT41": [{size: 1}, {size: 2}]
+//        }
             for (ProductVariant productVariant : productVariants) {
                 ProductAdminResponse productAdminResponse= new ProductAdminResponse();
+                productAdminResponse.setId(product.getId());
                 productAdminResponse.setName(product.getName());
                 productAdminResponse.setProductCode(product.getProductCode());
                 productAdminResponse.setBrand(brand.getName());
@@ -44,8 +54,6 @@ public class ProductDTOConverter {
                 productAdminResponse.setQuantity(
                         inventoryItems.stream().map(InventoryItem::getQuantity).reduce(0, Integer::sum)
                 );
-                productAdminResponse.setWarehouse(inventories.stream().map(Inventory::getName).collect(Collectors.toList()));
-                productAdminResponse.setStatus(inventoryItems.stream().map(InventoryItem::getStatus).collect(Collectors.toList()));
                 productAdminResponses.add(productAdminResponse);
             }
         return productAdminResponses;

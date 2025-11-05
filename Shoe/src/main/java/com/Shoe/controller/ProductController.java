@@ -25,10 +25,9 @@ public class ProductController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<?> getProduct(@RequestParam String productCode, @RequestParam(required = false) Long userId) {
-        return productService.getProduct(productCode, userId);
+    public ResponseEntity<?> getProduct(@RequestParam Long id, @RequestParam(required = false) Long userId) {
+        return productService.getProduct(id, userId);
     }
-
     @PutMapping("/update")
     public ResponseEntity<?> updateProduct(@RequestParam String code, @RequestBody ProductUpdateRequest productUpdateRequest) {
         return productService.updateProduct(code, productUpdateRequest);

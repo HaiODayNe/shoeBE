@@ -15,8 +15,8 @@ import com.Shoe.enums.InventoryItemStatus;
 public class ProductCreateRequest {
     private String name;
     private String productCode;
-    private Category category;
-    private Brand brand;
+    private String category;
+    private String brand;
     private int size;
     private String productVariantCode;
     private double price;

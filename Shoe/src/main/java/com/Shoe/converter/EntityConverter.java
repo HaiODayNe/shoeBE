@@ -66,14 +66,14 @@ public class EntityConverter {
         return productVariant;
     }
 
-    public static InventoryItem convertUpdateInventoryItem(ProductUpdateRequest productUpdateRequest, ProductVariant productVariant,Inventory inventory) {
-        InventoryItem inventoryItem = new InventoryItem();
-        inventoryItem.setInventoryId(inventory.getId());
-        inventoryItem.setQuantity(productUpdateRequest.getQuantity());
-        inventoryItem.setStatus(productUpdateRequest.getStatus());
-        inventoryItem.setProductVariantId(productVariant.getId());
-        return inventoryItem;
-    }
+//    public static InventoryItem convertUpdateInventoryItem(ProductUpdateRequest productUpdateRequest, ProductVariant productVariant,Inventory inventory) {
+//        InventoryItem inventoryItem = new InventoryItem();
+//        inventoryItem.setInventoryId(inventory.getId());
+//        inventoryItem.setQuantity(productUpdateRequest.getQuantity());
+//        inventoryItem.setStatus(productUpdateRequest.getStatus());
+//        inventoryItem.setProductVariantId(productVariant.getId());
+//        return inventoryItem;
+//    }
 
 
 }

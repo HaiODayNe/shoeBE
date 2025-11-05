@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    ResponseEntity<?>  getProduct(String productCode,Long userId);
+    ResponseEntity<?>  getProduct(Long id,Long userId);
 
     ResponseEntity<?> addProduct(ProductCreateRequest productCreateRequest);
 

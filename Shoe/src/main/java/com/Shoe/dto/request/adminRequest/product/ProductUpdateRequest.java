@@ -7,13 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.Shoe.enums.InventoryItemStatus;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductUpdateRequest {
-
     private String name;
     private String productCode;
     private Category category;
@@ -23,8 +22,6 @@ public class ProductUpdateRequest {
     private double price;
     private String version;
     private String color;
-    private Gender gender;
     private int quantity;
-    private String warehouseCode;
-    private InventoryItemStatus status;
+    private Gender gender;
 }
